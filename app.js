@@ -4,6 +4,10 @@ const path = require('path');
 const app = express();
 const port = process.env.PORT || 3000;
 
+const TaskModel = require('./db/tasks');
+const TABLE_NAME = 'Tasks'
+const USER_ID = '0';
+
 // serve static files from the 'public' directory
 app.use(express.static(path.join(__dirname, 'public')));
 
@@ -12,107 +16,42 @@ app.get('/', (req, res) => {
   res.sendFile(path.join(__dirname, 'views', 'index.html'));
 });
 
-
 //defining route prefix
-API_PREFIX = "/api"
-app.get(`${API_PREFIX}`, (req, res) => {
-  res.send('get method recieved')
+const API_PREFIX = "api";
+
+app.get(`/${API_PREFIX}/create_task/:params`, (req, res) => {
+
+  console.log("function called");
+
+  //params = req.body;
+  
+  const task = JSON.parse(decodeURIComponent(req.params.params));
+  
+  const params = {
+    TableName: TABLE_NAME,
+    Item: {
+      UserId: USER_ID,
+      Task: task
+    }
+  }
+  
+  res.send(TaskModel.createItem(params)
+    .then(console.log("item created succesfuly"))
+    .catch(err => console.log(err)));
+
+  
+  
+  //TaskModel.createItem(req.params)
 });
 
 app.post(`${API_PREFIX}`, (req, res) => {
   res.send('get method recieved')
 });
 
-
-
-
 // start the server
 app.listen(port, () => {
   console.log(`Server running on port ${port}`);
 });
 
-// sdk object
-const AWS = require('aws-sdk');
-// configuring region
-AWS.config.update({ region: 'eu-central-1' });
-//instantiating a document client object which is easier to interact with than  the dynamodDB object
-const docClient = new AWS.DynamoDB.DocumentClient();
 
-// create a new item
-const createItem = (params) => {
-  return new Promise((resolve, reject) => {
-    docClient.put(params, (err, data) => {
-      if (err) {
-        reject(err);
-      } else {
-        resolve(data);
-      }
-    });
-  });
-};
-
-// read an item by primary key
-const readItem = (params) => {
-  return new Promise((resolve, reject) => {
-    docClient.get(params, (err, data) => {
-      if (err) {
-        reject(err);
-      } else {
-        resolve(data.Item);
-      }
-    });
-  });
-};
-
-// update an item
-const updateItem = (params) => {
-  return new Promise((resolve, reject) => {
-    docClient.update(params, (err, data) => {
-      if (err) {
-        reject(err);
-      } else {
-        resolve(data);
-      }
-    });
-  });
-};
-
-// delete an item by primary key
-const deleteItem = (params) => {
-  return new Promise((resolve, reject) => {
-    docClient.delete(params, (err, data) => {
-      if (err) {
-        reject(err);
-      } else {
-        resolve(data);
-      }
-    });
-  });
-};
-
-// query the table
-const queryTable = (params) => {
-  return new Promise((resolve, reject) => {
-    docClient.query(params, (err, data) => {
-      if (err) {
-        reject(err);
-      } else {
-        resolve(data.Items);
-      }
-    });
-  });
-};
-
-// scan the table
-const scanTable = (params) => {
-  return new Promise((resolve, reject) => {
-    docClient.scan(params, (err, data) => {
-      if (err) {
-        reject(err);
-      } else {
-        resolve(data.Items);
-      }
-    });
-  });
-};
 
