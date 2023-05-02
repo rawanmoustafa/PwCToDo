@@ -35,13 +35,36 @@ app.get(`/${API_PREFIX}/create_task/:params`, (req, res) => {
     }
   }
   
-  res.send(TaskModel.createItem(params)
-    .then(console.log("item created succesfuly"))
-    .catch(err => console.log(err)));
+  res.send(
+    TaskModel.updateItem(params)
+      .then(console.log("item created succesfuly"))
+      .catch(err => console.log(err))
+  );
 
   
   
   //TaskModel.createItem(req.params)
+});
+
+app.get(`/${API_PREFIX}/get_tasks/:user_id`, (req, res) => {
+
+  const user_id = req.params.user_id.replace(/"/g, '');
+  console.log("GET TASKS FOR USERID: " + user_id);
+  const params = {
+    TableName: TABLE_NAME,
+    KeyConditionExpression: "#pk = :pk",
+    ExpressionAttributeNames: {
+      "#pk": "UserId"
+    },
+    ExpressionAttributeValues: {
+      ":pk": user_id
+    }
+  };
+  
+  TaskModel.queryTable(params)
+    .then(item => {console.log(item);res.send(item);})
+    .catch(err => console.log(err))
+  
 });
 
 app.post(`${API_PREFIX}`, (req, res) => {
