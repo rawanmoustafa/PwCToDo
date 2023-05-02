@@ -103,7 +103,8 @@ async function renderTodoList() {
 }
 
 function dataObjectUpdated() {
-  localStorage.setItem('todoList', JSON.stringify(data));
+  let temp_data = {todo:data.todo, completed:[] }
+  localStorage.setItem('todoList', JSON.stringify(temp_data));
 }
 
 function removeItem() {
