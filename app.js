@@ -13,6 +13,19 @@ app.get('/', (req, res) => {
 });
 
 
+//defining route prefix
+API_PREFIX = "/api"
+app.get(`${API_PREFIX}`, (req, res) => {
+  res.send('get method recieved')
+});
+
+app.post(`${API_PREFIX}`, (req, res) => {
+  res.send('get method recieved')
+});
+
+
+
+
 // start the server
 app.listen(port, () => {
   console.log(`Server running on port ${port}`);
