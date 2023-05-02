@@ -36,7 +36,7 @@ app.get(`/${API_PREFIX}/create_task/:params`, (req, res) => {
   }
   
   res.send(
-    TaskModel.updateItem(params)
+    TaskModel.createItem(params)
       .then(console.log("item created succesfuly"))
       .catch(err => console.log(err))
   );

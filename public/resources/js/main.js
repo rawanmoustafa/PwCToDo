@@ -1,8 +1,11 @@
 
+//populates the data object if to do list json string is found it parses it into obj
+//if not found it puts empty arrays
 var data = (localStorage.getItem('todoList')) ? JSON.parse(localStorage.getItem('todoList')):{
   todo: [], // gotta read from db
   completed: []
 };
+
 
 
 // Remove and complete icons in SVG format
@@ -16,6 +19,9 @@ const REQUEST_PREFIX = "api";
 const USER_ID = '0';
 
 renderTodoList();
+
+
+
 
 
 // User clicked on the add button
@@ -41,8 +47,9 @@ async function getTasks (user_id){
   try{
     const response = await fetch(url);
     const data = await response.json();
-    console.log(data);
-    return data.Task;
+    const tasks = data.map(item => item.Task);
+    console.log(tasks);
+    return tasks;
   }
   catch (error){
     console.log(error);
@@ -53,7 +60,7 @@ async function getTasks (user_id){
 }
 
 
-getTasks(USER_ID);
+
 
 
 function addItem (value) {
@@ -77,9 +84,11 @@ function addItem (value) {
   
 }
 
-function renderTodoList() {
+async function renderTodoList() {
 
-  
+  const tasks = await getTasks(USER_ID);
+  data.todo = tasks;
+
   if (!data.todo.length && !data.completed.length) return;
 
   for (var i = 0; i < data.todo.length; i++) {
