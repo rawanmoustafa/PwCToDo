@@ -1,9 +1,7 @@
 const AWS = require('aws-sdk');
 // Configure AWS credentials
 AWS.config.update({
-  region: 'eu-central-1',
-  accessKeyId: 'AKIA37BCCWHVPFO2I26W',
-  secretAccessKey: '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',
+  region: 'eu-central-1'
 });
 
 //identity pool ID: eu-central-1:8106c104-5b45-438d-8803-8b2a75342eb5
