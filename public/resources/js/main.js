@@ -114,13 +114,33 @@ function removeItem() {
   var value = item.innerText;
 
   if (id === 'todo') {
+    
     data.todo.splice(data.todo.indexOf(value), 1);
   } else {
+    
     data.completed.splice(data.completed.indexOf(value), 1);
   }
   dataObjectUpdated();
 
   parent.removeChild(item);
+
+  //fetching starts here
+  //value is the sort key which is the content of the task
+  let url = `${SERVER_NAME}/${REQUEST_PREFIX}/delete_task/`;
+  url = url + encodeURIComponent(JSON.stringify(value));
+    fetch(url, {
+    method: 'DELETE',
+    })
+    .then(response => {
+      if (!response.ok) {
+        throw new Error('Network response was not ok');
+      }
+      console.log(response);
+    })
+    .then(console.log('Item deleted:'))
+    .catch(error => {
+      console.error('Error deleting item:', error);
+    });
 }
 
 function completeItem() {

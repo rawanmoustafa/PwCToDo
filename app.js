@@ -47,7 +47,7 @@ app.get(`/${API_PREFIX}/create_task/:params`, (req, res) => {
 });
 
 app.get(`/${API_PREFIX}/get_tasks/:user_id`, (req, res) => {
-
+  // no need for the userid to be passed here
   const user_id = req.params.user_id.replace(/"/g, '');
   console.log("GET TASKS FOR USERID: " + user_id);
   const params = {
@@ -65,6 +65,28 @@ app.get(`/${API_PREFIX}/get_tasks/:user_id`, (req, res) => {
     .then(item => {console.log(item);res.send(item);})
     .catch(err => console.log(err))
   
+});
+
+app.delete(`/${API_PREFIX}/delete_task/:params`, async (req, res) => {
+  
+  const task = JSON.parse(decodeURIComponent(req.params.params));
+
+  console.log("DELETE: " + task)
+  const params = {
+    TableName: TABLE_NAME,
+    Key: {
+      UserId: USER_ID,
+      Task: task,
+
+    },
+  };
+  try {
+    await TaskModel.deleteItem(params);
+    res.status(204).send();
+  } catch (error) {
+    console.error(error);
+    res.status(500).send();
+  }
 });
 
 app.post(`${API_PREFIX}`, (req, res) => {
