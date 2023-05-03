@@ -1,7 +1,10 @@
 const express = require('express');
 const path = require('path');
+const bodyParser = require('body-parser');
+
 
 const app = express();
+app.use(bodyParser.json());
 const port = process.env.PORT || 3000;
 
 const TaskModel = require('./db/tasks');
@@ -19,13 +22,10 @@ app.get('/', (req, res) => {
 //defining route prefix
 const API_PREFIX = "api";
 
-app.get(`/${API_PREFIX}/create_task/:params`, (req, res) => {
-
-  console.log("function called");
-
-  //params = req.body;
+app.post(`/${API_PREFIX}/create_task`, (req, res) => {
   
-  const task = JSON.parse(decodeURIComponent(req.params.params));
+  const task = req.body.task; // assuming the request body contains a JSON object with a "task" property
+
   
   const params = {
     TableName: TABLE_NAME,
@@ -35,21 +35,22 @@ app.get(`/${API_PREFIX}/create_task/:params`, (req, res) => {
     }
   }
   
-  res.send(
-    TaskModel.createItem(params)
-      .then(console.log("item created succesfuly"))
-      .catch(err => console.log(err))
-  );
-
-  
-  
-  //TaskModel.createItem(req.params)
+  TaskModel.createItem(params)
+    .then(() => {
+      console.log("Item created successfully");
+      res.status(200).send("Item created successfully");
+    })
+    .catch(err => {
+      console.log(err);
+      res.status(500).send("Error creating item");
+    });
+    
 });
 
 app.get(`/${API_PREFIX}/get_tasks/:user_id`, (req, res) => {
   // no need for the userid to be passed here
   const user_id = req.params.user_id.replace(/"/g, '');
-  console.log("GET TASKS FOR USERID: " + user_id);
+  //console.log("GET TASKS FOR USERID: " + user_id);
   const params = {
     TableName: TABLE_NAME,
     KeyConditionExpression: "#pk = :pk",
@@ -71,7 +72,7 @@ app.delete(`/${API_PREFIX}/delete_task/:params`, async (req, res) => {
   
   const task = JSON.parse(decodeURIComponent(req.params.params));
 
-  console.log("DELETE: " + task)
+  //console.log("DELETE: " + task)
   const params = {
     TableName: TABLE_NAME,
     Key: {

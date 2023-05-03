@@ -71,16 +71,23 @@ function addItem (value) {
   dataObjectUpdated();
 
   //sending the request to serverside 
-  let url = `${SERVER_NAME}/${REQUEST_PREFIX}/create_task/`;
+  let url = `${SERVER_NAME}/${REQUEST_PREFIX}/create_task`;
   
-  
-
-  url = url + encodeURIComponent(JSON.stringify(value));
-  
-  res = fetch(url)
-          .then(response => response)
-          .then(data => console.log(data))
-          .catch(error => console.log(error));
+  fetch(url, {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json"
+    },
+    body: JSON.stringify({ task: value })
+  })
+  .then(response => {
+    if (response.ok) {
+      console.log("Item created successfully");
+    } else {
+      console.log("Error creating item");
+    }
+  })
+  .catch(error => console.log(error));
   
 }
 
