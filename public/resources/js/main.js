@@ -22,6 +22,38 @@ renderTodoList();
 
 
 
+//popup handling 
+//----------------------------
+document.getElementById('open-login-popup').addEventListener('click', function () {
+  document.getElementById('login-popup').classList.remove('hidden');
+});
+
+document.getElementById('close-login-popup').addEventListener('click', function () {
+  document.getElementById('login-popup').classList.add('hidden');
+});
+
+window.addEventListener('click', function (event) {
+  if (event.target === document.getElementById('login-popup')) {
+    document.getElementById('login-popup').classList.add('hidden');
+  }
+});
+
+
+document.getElementById('open-register-popup').addEventListener('click', function () {
+  document.getElementById('register-popup').classList.remove('hidden');
+});
+
+document.getElementById('close-register-popup').addEventListener('click', function () {
+  document.getElementById('register-popup').classList.add('hidden');
+});
+
+window.addEventListener('click', function (event) {
+  if (event.target === document.getElementById('register-popup')) {
+    document.getElementById('register-popup').classList.add('hidden');
+  }
+});
+//popup handling end
+// -----------------------------
 
 
 // User clicked on the add button

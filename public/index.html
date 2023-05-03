@@ -30,10 +30,42 @@
 			<a class="navbar-brand col-sm-7">PwC ToDo</a>
 			
 			<div class = "col-6 col-md-4">
-			  <button class="btn btn-outline-success" type="submit">SignIn</button>
-			  <button class="btn btn-outline-success" type="submit">SignUp</button>
+			  <button id="open-login-popup" class="btn btn-outline-success" type="submit">SignIn</button>
+			  <button id="open-register-popup" class="btn btn-outline-success" type="submit">SignUp</button>
 			</div>
 		</nav>
+
+		<div id="login-popup" class="popup hidden">
+			<div class="popup-content">
+			  <span id="close-login-popup" class="close">&times;</span>
+			  <h2>Login</h2>
+			  <form>
+				<label for="email">Email:</label>
+				<input type="text" id="email" name="email" required>
+				<br>
+				<label for="password">Password:</label>
+				<input type="password" id="password" name="password" required>
+				<br>
+				<button type="submit">Login</button>
+			  </form>
+			</div>
+		  </div>
+
+		  <div id="register-popup" class="popup hidden">
+			<div class="popup-content">
+			  <span id="close-register-popup" class="close">&times;</span>
+			  <h2>Login</h2>
+			  <form>
+				<label for="email">Email:</label>
+				<input type="text" id="email" name="email" required>
+				<br>
+				<label for="password">Password:</label>
+				<input type="password" id="password" name="password" required>
+				<br>
+				<button type="submit">Register</button>
+			  </form>
+			</div>
+		  </div>
 		
 		<div class="container">
 			<div class = "row TaskAdder">
