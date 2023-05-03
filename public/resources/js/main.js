@@ -226,7 +226,7 @@ function addItemToDOM(text, completed) {
   complete.innerHTML = completeSVG;
 
   // Add click event for completing the item
-  complete.addEventListener('click', completeItem);
+  complete.addEventListener('click', removeItem);
 
   buttons.appendChild(remove);
   buttons.appendChild(complete);
