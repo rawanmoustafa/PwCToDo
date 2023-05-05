@@ -1,0 +1,28 @@
+version: 0.2
+
+phases:
+  install:
+    commands:
+      - wget https://github.com/mikefarah/yq/releases/download/v4.25.2/yq_linux_amd64 -O /usr/bin/yq && chmod +x /usr/bin/yq
+  pre_build:
+    commands:
+      - IMAGE_TAG=$(echo $CODEBUILD_RESOLVED_SOURCE_VERSION | cut -c 1-8)
+  build:
+    commands:
+      - echo Build started on `date`
+  post_build:
+    commands:
+      - git clone --branch $BranchName https://$GITHUBUSERTOKEN@github.com/$GITHUBUSERNAME/PwCToDo.git config_repo
+      - git config --global user.email "argocd@pwc.com"
+      - git config --global user.name "ArgoCD"
+      - |
+        FILE=values.yaml
+        cd config_repo/helm
+        for directory in */ ; do
+        if [ -f "./$directory/$FILE" ]; then
+          tag="$IMAGE_TAG" yq -i  '.image.tag = env(tag)' ./$directory/$FILE
+        fi
+        done
+      - git commit -am "Update Image Tag $IMAGE_TAG on $BranchName"
+      - git push origin $BranchName
+      - echo "Updated Image Tag $IMAGE_TAG on $BranchName"
