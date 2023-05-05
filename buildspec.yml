@@ -10,7 +10,7 @@ phases:
       - IMAGE_TAG=$(echo $CODEBUILD_RESOLVED_SOURCE_VERSION | cut -c 1-8)
       - IMAGE_URI="$AWS_ACCOUNT_ID.dkr.ecr.eu-central-1.amazonaws.com/internal-project/web-app:$IMAGE_TAG"
       - export KUBECONFIG=$HOME/.kube/config
-      - echo "Creating a new ECR Repo for $SERVICE_NAME if it doesn't exist"
+      - echo "Creating a new ECR Repo for web-app if it doesn't exist"
       - aws ecr create-repository --repository-name internal-project/web-app --region eu-central-1 2>/dev/null || echo The repository with name internal-project/web-app already exists
   build:
     commands:
