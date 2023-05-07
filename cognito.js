@@ -14,7 +14,7 @@ const cognito = new AWS.CognitoIdentityServiceProvider({
 });
 
 //const userPoolId = 'eu-central-1_ljrt04eto';
-const clientId = '3vnig5067sq7hb1ufmd98t22as';
+const clientId = '4il1o95ebqil0s64ofm4ep21j8';
 
 // Register a new user
 async function registerUser(email, password) {
@@ -61,4 +61,20 @@ async function loginUser(email, password) {
   }
 }
 
-module.exports = { registerUser, loginUser };
+// Logout the currently signed-in user
+async function logoutUser(accessToken) {
+  const params = {
+    AccessToken: accessToken
+  };
+
+  try {
+    const result = await cognito.globalSignOut(params).promise();
+    console.log('User logged out:', result);
+    return result;
+  } catch (error) {
+    console.error('Error logging out user:', error);
+    throw error;
+  }
+}
+
+module.exports = { registerUser, loginUser, logoutUser };

@@ -1,15 +1,11 @@
 // sdk object
-const AWS = require('aws-sdk'),
-      {
-        DynamoDBDocument
-      } = require("@aws-sdk/lib-dynamodb"),
-      {
-        DynamoDB
-      } = require("@aws-sdk/client-dynamodb");
-// configuring region
+const AWS = require('aws-sdk')
 AWS.config.update({ region: 'eu-central-1' });
+const { DynamoDBDocument } = require("@aws-sdk/lib-dynamodb")
+const { DynamoDB } = require("@aws-sdk/client-dynamodb");
+// configuring region
 //instantiating a document client object which is easier to interact with than  the dynamodDB object
-const docClient = DynamoDBDocument.from(new DynamoDB());
+const docClient = DynamoDBDocument.from(new DynamoDB({region:'eu-central-1'}));
 
 // create a new item
 const createItem = (params) => {
