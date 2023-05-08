@@ -14,7 +14,7 @@ const cognito = new AWS.CognitoIdentityServiceProvider({
 });
 
 //const userPoolId = 'eu-central-1_ljrt04eto';
-const clientId = '4il1o95ebqil0s64ofm4ep21j8';
+const clientId = '3vnig5067sq7hb1ufmd98t22as';
 
 // Register a new user
 async function registerUser(email, password) {
