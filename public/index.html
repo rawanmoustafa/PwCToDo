@@ -7,7 +7,7 @@
         <!--Responsive Viewport Meta tag-->
         <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
         
-		<title>Todo list app</title>
+		<title>Todo list app Pipe</title>
         
 		<!-- Roboto font embed -->
 		<link href="https://fonts.googleapis.com/css?family=Roboto:400,500,700" rel="stylesheet">
@@ -30,8 +30,13 @@
 			<a class="navbar-brand col-sm-7">PwC ToDo</a>
 			
 			<div class = "col-6 col-md-4">
-			  <button id="open-login-popup" class="btn btn-outline-success" type="submit">SignIn</button>
-			  <button id="open-register-popup" class="btn btn-outline-success" type="submit">SignUp</button>
+				<div class = "notlogged">
+					<button id="open-login-popup" class="btn btn-outline-success" type="submit">SignIn</button>
+					<button id="open-register-popup" class="btn btn-outline-success" type="submit">SignUp</button>
+				</div>
+				<div class = "logged">
+					<button id="sign-out" class="btn btn-outline-success" type="submit">SignOut</button>
+				</div>
 			</div>
 		</nav>
 
@@ -39,7 +44,7 @@
 			<div class="popup-content">
 			  <span id="close-login-popup" class="close">&times;</span>
 			  <h2>Login</h2>
-			  <form>
+			  <form id = "login-form">
 				<label for="email">Email:</label>
 				<input type="text" id="email" name="email" required>
 				<br>
@@ -55,19 +60,19 @@
 			<div class="popup-content">
 			  <span id="close-register-popup" class="close">&times;</span>
 			  <h2>Register</h2>
-			  <form>
+			  <form id = "register-form">
 				<label for="email">Email:</label>
-				<input type="text" id="email" name="email" required>
+				<input type="text" id="email-register" name="email" required>
 				<br>
 				<label for="password">Password:</label>
-				<input type="password" id="password" name="password" required>
+				<input type="password" id="password-register" name="password" required>
 				<br>
 				<button type="submit">Register</button>
 			  </form>
 			</div>
 		  </div>
 		
-		<div class="container">
+		<div id = "necessary-divs" class="container">
 			<div class = "row TaskAdder">
 
 				<div class = "col"><input type="text" placeholder="Enter an activity.." id="item"></div>
@@ -80,6 +85,16 @@
 
 			<!-- Completed tasks -->
 			<ul class="todo row" id="completed"></ul>
+		</div>
+
+		<div id = "unnecessary-div" class="container">
+			<div class = "row">
+				<h2> You are not signed in sign in to get some task action !!</h2>
+
+			</div>
+			
+			<img src="giphy.gif" alt="Cat Gif">
+
 		</div>
 
 		<!-- JavaScripts -->
