@@ -111,7 +111,7 @@ app.post(`/${API_PREFIX}/logout`, async (req, res) => {
 app.get(`/${API_PREFIX}/get_tasks/:user_id`, (req, res) => {
   // no need for the userid to be passed here
   const user_id = req.params.user_id.replace(/"/g, '');
-  //console.log("GET TASKS FOR USERID: " + user_id);
+  console.log("GET TASKS FOR USERID: " + user_id);
   const params = {
     TableName: TABLE_NAME,
     KeyConditionExpression: "#pk = :pk",
